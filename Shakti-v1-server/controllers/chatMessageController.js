@@ -29,10 +29,10 @@ export const getAllMessagesBySessionId = async (req, res) => {
 };
 
 export const processMessage = async (req, res) => {
-  const { API_KEY, sessionId, input } = req.body;
+  const { sessionId, input } = req.body;
 
   // Validate API_KEY, sessionId, and input
-  if (!API_KEY || !sessionId || !input) {
+  if (!sessionId || !input) {
     return res.status(400).json({ error: "Invalid request parameters" });
   }
 
@@ -51,7 +51,7 @@ export const processMessage = async (req, res) => {
 
   // Model
   const model = new ChatOpenAI({
-    openAIApiKey: API_KEY,
+    openAIApiKey: process.env.OPENAI_API_KEY,
     modelName: "gpt-3.5-turbo",
     temperature: 0.9,
   });
