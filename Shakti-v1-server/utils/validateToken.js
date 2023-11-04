@@ -8,7 +8,6 @@ const validateToken = async (req, res, next) => {
       const decoded = await jwt.verify(token, process.env.JWT_SECRET);
       console.log("Decoded Token:", decoded); // Add this line for debugging
       req.user = decoded;
-      console.log(req.user);
       next();
     } catch (err) {
       res.status(401).json({ message: "User is not authorized" });
