@@ -1,35 +1,43 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { CssBaseline } from "@mui/material";
+import { Routes, Route } from "react-router-dom";
+import ChatPage from "./pages/ChatPage";
+import LoginPage from "./pages/LoginPage";
+import RequestLoginPage from "./pages/RequestLoginPage";
+import SignUpPage from "./pages/SignUpPage";
+import LandingPage from "./pages/LandingPage";
+import { useSelector } from "react-redux";
+import Protected from "./components/Protected";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+
+  console.log(isLoggedIn);
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <CssBaseline />
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+
+        <Route path="/login" element={<LoginPage />} />
+
+        <Route path="/signup" element={<SignUpPage />} />
+
+        <Route path="/request-login" element={<RequestLoginPage />} />
+
+        <Route
+          path="/chat"
+          element={
+            <Protected isLoggedIn={isLoggedIn}>
+              <ChatPage />
+            </Protected>
+          }
+        />
+
+        <Route path="*" element={<h1> PAGE NOT FOUND</h1>} />
+      </Routes>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
